@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Date;
-
-@FeignClient(name="bike", url="http://bike:8080")
+// http://bike:8080 ${api.url.bike}
+@FeignClient(name="bike", url="${api.url.bike}")
 public interface BikeService {
 
-    @RequestMapping(method= RequestMethod.PATCH, path="/bikes")
+    @RequestMapping(method= RequestMethod.POST, path="/bikes")
     public void rent(@RequestBody Bike bike);
 
 }

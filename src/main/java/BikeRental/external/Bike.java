@@ -3,6 +3,8 @@ package BikeRental.external;
 public class Bike {
 
     private Long id;
+    private Long userId;
+    private Long bikeId;
     private String status;
 
     public Long getId() {
@@ -10,6 +12,18 @@ public class Bike {
     }
     public void setId(Long id) {
         this.id = id;
+    }
+    public Long getUserId() {
+        return userId;
+    }
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+    public Long getBikeId() {
+        return bikeId;
+    }
+    public void setBikeId(Long bikeId) {
+        this.bikeId = bikeId;
     }
     public String getStatus() {
         return status;

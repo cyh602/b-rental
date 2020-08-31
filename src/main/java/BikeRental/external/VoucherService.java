@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Date;
-
-@FeignClient(name="voucher", url="http://voucher:8080")
+// http://voucher:8080 ${api.url.voucher}
+@FeignClient(name="voucher", url="${api.url.voucher}")
 public interface VoucherService {
 
-    @RequestMapping(method= RequestMethod.PATCH, path="/vouchers")
+    @RequestMapping(method= RequestMethod.POST, path="/vouchers")
     public void rent(@RequestBody Voucher voucher);
 
 }
