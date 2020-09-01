@@ -1,7 +1,16 @@
 package BikeRental;
 
 import javax.persistence.*;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import org.springframework.beans.BeanUtils;
+// import org.springframework.boot.json.JsonParser;
+import org.springframework.core.env.Environment;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+
 import java.util.List;
 
 @Entity
@@ -40,21 +49,63 @@ public class Rental {
 
         // Voucher Aggregate
 
-        
+        RestTemplate restTemplate = RentalApplication.applicationContextBike.getBean(RestTemplate.class);
+        Environment env = RentalApplication.applicationContextBike.getEnvironment();
+
+        String productUrl = env.getProperty("api.url.voucher") + "/vouchers/" + this.getVoucherId();
+        ResponseEntity<String> productEntity = restTemplate.getForEntity(productUrl, String.class);
+        System.out.print("productEntity : " + productEntity.getBody());
+
+
+        JsonParser parser = new JsonParser(); 
+        JsonObject jsonObject = parser.parse(productEntity.getBody()).getAsJsonObject();
+
+        Long voucherCnt = 0L;
+        voucherCnt = jsonObject.get("voucherCnt").getAsLong();
+
+        System.out.print("voucherCnt : " + voucherCnt);
+        System.out.println("voucherID :  " + this.getVoucherId());
+
         BikeRental.external.Voucher voucher = new BikeRental.external.Voucher();
         voucher.setUserId(this.getUserId());
         voucher.setId(this.getVoucherId());
+        voucher.setVoucherCnt(voucherCnt-1L);
         
-
-        System.out.println("voucherID :  " + this.getVoucherId());
+            
         RentalApplication.applicationContextBike.getBean(BikeRental.external.VoucherService.class)
+                // .rent(this.getVoucherId(), voucher);
                 .rent(voucher);
 
     }
 
     @PreUpdate
     public void onPreUpdate(){
+
+        // RestTemplate restTemplate = RentalApplication.applicationContextBike.getBean(RestTemplate.class);
+        // Environment env = RentalApplication.applicationContextBike.getEnvironment();
+
+        // String productUrl = env.getProperty("api.url.voucher") + "/vouchers/" + this.getVoucherId();
+        // ResponseEntity<String> productEntity = restTemplate.getForEntity(productUrl, String.class);
+        // System.out.print("###onPreUpdate#### productEntity : " + productEntity.getBody());
+
+
+        // JsonParser parser = new JsonParser(); 
+        // JsonObject jsonObject = parser.parse(productEntity.getBody()).getAsJsonObject();
+
+
+        // Long voucherCnt = 0L;
+        // voucherCnt = jsonObject.get("voucherCnt").getAsLong();
+
+        // System.out.println("voucherCnt : " + voucherCnt);
+        // System.out.println("voucherID :  " + this.getVoucherId());
+
+        
+
+        // VoucherRepository voucherRepository = RentalApplication.applicationContext.getBean(voucherRepository.class); 
+
+
         RentalCancelled rentalCancelled = new RentalCancelled();
+        // rentalCancelled.setVoucherCnt(voucherCnt+1L);
         BeanUtils.copyProperties(this, rentalCancelled);
         rentalCancelled.publishAfterCommit();
 

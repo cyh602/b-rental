@@ -36,6 +36,8 @@ api:
     bike: http://localhost:8085
     voucher: http://localhost:8083
 
+
+
 logging:
   level:
     org.hibernate.type: trace
@@ -70,5 +72,5 @@ spring:
 
 api:
   url:
-    bike: http://bike:8085
-    voucher: http://voucher:8083
+    bike: http://b-bike:8080
+    voucher: http://b-voucher:8080

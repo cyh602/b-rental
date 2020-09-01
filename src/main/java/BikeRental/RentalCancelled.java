@@ -7,6 +7,7 @@ public class RentalCancelled extends AbstractEvent {
     private Long voucherId;
     private Long bikeId;
     private String status;
+    private Long voucherCnt;
 
     public Long getId() {
         return id;
@@ -42,5 +43,13 @@ public class RentalCancelled extends AbstractEvent {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Long getVoucherCnt() {
+        return voucherCnt;
+    }
+
+    public void setVoucherCnt(Long voucherCnt) {
+        this.voucherCnt = voucherCnt;
     }
 }
