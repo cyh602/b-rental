@@ -13,5 +13,6 @@ public interface BikeService {
 
     @RequestMapping(method= RequestMethod.POST, path="/bikes")
     public void rent(@RequestBody Bike bike);
+      
 
 }

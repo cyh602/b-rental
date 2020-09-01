@@ -29,16 +29,24 @@ public class Rental {
         BikeRental.external.Bike bike = new BikeRental.external.Bike();
         bike.setUserId(this.getUserId());
         bike.setBikeId(this.getBikeId());
-        bike.setStatus(this.getStatus());
+        bike.setId(this.getBikeId());
+        bike.setStatus("occupied");
+       
+        System.out.println("bikeID :  " + bike.getBikeId() + " /// ID: "+ bike.getId() +"/// USERID : " + bike.getUserId());
 
         // mappings goes here
         RentalApplication.applicationContextBike.getBean(BikeRental.external.BikeService.class)
             .rent(bike);
 
         // Voucher Aggregate
+
+        
         BikeRental.external.Voucher voucher = new BikeRental.external.Voucher();
         voucher.setUserId(this.getUserId());
+        voucher.setId(this.getVoucherId());
+        
 
+        System.out.println("voucherID :  " + this.getVoucherId());
         RentalApplication.applicationContextBike.getBean(BikeRental.external.VoucherService.class)
                 .rent(voucher);
 
