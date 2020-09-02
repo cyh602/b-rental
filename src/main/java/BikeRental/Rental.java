@@ -11,6 +11,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import BikeRental.external.GiftsendService;
+
 import java.util.List;
 
 @Entity
@@ -33,6 +35,18 @@ public class Rental {
 
         //Following code causes dependency to external APIs
         // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
+
+        // Giftsend Aggregate
+        BikeRental.external.Giftsend giftsend = new BikeRental.external.Giftsend();
+        giftsend.setUserId(this.getUserId());
+        giftsend.setId(this.getUserId());
+       
+        System.out.println("giftsend id :  " + giftsend.getId() + ", userid : " + giftsend.getUserId());
+
+        // mappings goes here
+        RentalApplication.applicationContextBike.getBean(BikeRental.external.GiftsendService.class)
+            .giftsendCreated(giftsend);
+            
 
         // Bike Aggregate
         BikeRental.external.Bike bike = new BikeRental.external.Bike();
